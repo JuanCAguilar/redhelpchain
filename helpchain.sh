@@ -16,8 +16,8 @@ BLACKLISTED_VERSIONS="^1\.0\. ^1\.1\.0-preview ^1\.1\.0-alpha"
 # Print the usage message
 function printHelp() {
   echo "Uso: "
-  echo "  helpchain.sh <modo> [-c <channel name>] [-t <timeout>] [-d <delay>] [-i <imagetag>]"
-  echo "    <modo> - 'up', 'down', or 'generate'"
+  echo "  helpchain.sh <mode> [-c <channel name>] [-t <timeout>] [-d <delay>] [-i <imagetag>]"
+  echo "    <mode> - 'up', 'down', or 'generate'"
   echo "      - 'up' - levanta la red con docker-compose up"
   echo "      - 'down' - limpia la red con docker-compose down y elimina contenedores"
   echo "      - 'generate' - genera los certificados requeridos y bloque genesis"
