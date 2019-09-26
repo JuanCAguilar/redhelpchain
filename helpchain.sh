@@ -57,6 +57,7 @@ function networkUp() {
 
   if [ ! -d "crypto-config" ]; then
     generateCerts
+    replacePrivateKey
     generateChannelArtifacts
   fi
 
@@ -85,6 +86,7 @@ function networkDown() {
   docker run -v $PWD:/tmp/redhelpchain --rm hyperledger/fabric-tools:$IMAGETAG rm -Rf /tmp/redhelpchain/ledgers-backup
   # remove orderer block and other channel configuration transactions and certs
   rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config
+  rm docker-compose-redhelpchain.yaml
 
   docker rm -f $(docker ps -aq)
   docker rmi -f $(docker images -q)
@@ -115,6 +117,28 @@ function generateCerts() {
   echo
   echo "Generando archivos CCP para Org1, Org2, and Org3"
   ./ccp-generate.sh
+}
+
+function replacePrivateKey() {
+
+  OPTS="-i"
+
+  cp docker-compose-RHC-template.yaml docker-compose-redhelpchain.yaml
+
+
+  CURRENT_DIR=$PWD
+  cd crypto-config/peerOrganizations/org1.example.com/ca/
+  PRIV_KEY=$(ls *_sk)
+  cd "$CURRENT_DIR"
+  sed $OPTS "s/CA1_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-redhelpchain.yaml
+  cd crypto-config/peerOrganizations/org2.example.com/ca/
+  PRIV_KEY=$(ls *_sk)
+  cd "$CURRENT_DIR"
+  sed $OPTS "s/CA2_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-redhelpchain.yaml
+  cd crypto-config/peerOrganizations/org3.example.com/ca/
+  PRIV_KEY=$(ls *_sk)
+  cd "$CURRENT_DIR"
+  sed $OPTS "s/CA3_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-redhelpchain.yaml
 }
 
 function generateChannelArtifacts() {
@@ -278,7 +302,7 @@ elif [ "${MODE}" == "down" ]; then ## Clear the network
   networkDown
 elif [ "${MODE}" == "generate" ]; then ## Generate Artifacts
   generateCerts
-  #replacePrivateKey
+  replacePrivateKey
   generateChannelArtifacts
 else
   printHelp
