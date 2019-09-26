@@ -1,0 +1,7 @@
+/channel-artifacts/*.tx
+/channel-artifacts/*.block
+/crypto-config/*
+/docker-compose-redhelpchain.yaml
+/ledgers
+/ledgers-backup
+/channel-artifacts/*.json
