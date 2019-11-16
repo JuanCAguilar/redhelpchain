@@ -14,7 +14,7 @@ DELAY="$2"
 LANGUAGE="$3"
 TIMEOUT="$4"
 : ${CHANNEL_NAME:="channelhelpchain"}
-: ${DELAY:="3"}
+: ${DELAY:="5"}
 : ${LANGUAGE:="node"}
 : ${TIMEOUT:="10"}
 LANGUAGE=`echo "$LANGUAGE" | tr [:upper:] [:lower:]`
@@ -22,7 +22,7 @@ COUNTER=1
 MAX_RETRY=10
 
 if [ "$LANGUAGE" = "node" ]; then
-	CC_SRC_PATH="/opt/gopath/src/github.com/chaincode/chaincode_example02/node/"
+	CC_SRC_PATH="/opt/gopath/src/github.com/chaincode/contract"
 fi
 
 echo "Channel name : "$CHANNEL_NAME

@@ -87,6 +87,7 @@ function networkDown() {
   # remove orderer block and other channel configuration transactions and certs
   rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config
   rm docker-compose-redhelpchain.yaml
+  rm connection*
 
   docker rm -f $(docker ps -aq)
   docker rmi -f $(docker images -q)

@@ -5,3 +5,5 @@
 /ledgers
 /ledgers-backup
 /channel-artifacts/*.json
+
+/connection*
