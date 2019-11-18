@@ -16,15 +16,14 @@ BLACKLISTED_VERSIONS="^1\.0\. ^1\.1\.0-preview ^1\.1\.0-alpha"
 # Print the usage message
 function printHelp() {
   echo "Uso: "
-  echo "  helpchain.sh <mode> [-c <channel name>] [-t <timeout>] [-d <delay>] [-i <imagetag>]"
+  echo "  helpchain.sh <mode> [-c <channel name>] [-t <timeout>] [-d <delay>]"
   echo "    <mode> - 'up', 'down', or 'generate'"
   echo "      - 'up' - levanta la red con docker-compose up"
   echo "      - 'down' - limpia la red con docker-compose down y elimina contenedores"
   echo "      - 'generate' - genera los certificados requeridos y bloque genesis"
   echo "    -c <channel name> - nombre de canal (default \"channelhelpchain\")"
   echo "    -t <timeout> - tiempo de espera del CLI en segundos (defaults to 10)"
-  echo "    -d <delay> - duración de retraso entre comandos en segundos (defaults to 3)"
-  echo "    -i <imagetag> - la etiqueta para lanzar la red (defaults to \"latest\")"
+  echo "    -d <delay> - duración de retraso entre comandos en segundos (defaults to 5)"
   echo "  helpchain.sh -h (imprime este mensaje)"
   echo
   echo
@@ -116,7 +115,7 @@ function generateCerts() {
     exit 1
   fi
   echo
-  echo "Generando archivos CCP para Org1, Org2, and Org3"
+  echo "Generando archivos CCP para Reguladores, SoporteHC, and UsuarioHC"
   ./ccp-generate.sh
 }
 
@@ -128,15 +127,15 @@ function replacePrivateKey() {
 
 
   CURRENT_DIR=$PWD
-  cd crypto-config/peerOrganizations/org1.example.com/ca/
+  cd crypto-config/peerOrganizations/reg.com/ca/
   PRIV_KEY=$(ls *_sk)
   cd "$CURRENT_DIR"
   sed $OPTS "s/CA1_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-redhelpchain.yaml
-  cd crypto-config/peerOrganizations/org2.example.com/ca/
+  cd crypto-config/peerOrganizations/sop.com/ca/
   PRIV_KEY=$(ls *_sk)
   cd "$CURRENT_DIR"
   sed $OPTS "s/CA2_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-redhelpchain.yaml
-  cd crypto-config/peerOrganizations/org3.example.com/ca/
+  cd crypto-config/peerOrganizations/usr.com/ca/
   PRIV_KEY=$(ls *_sk)
   cd "$CURRENT_DIR"
   sed $OPTS "s/CA3_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-redhelpchain.yaml
@@ -182,42 +181,42 @@ function generateChannelArtifacts() {
 
   echo
   echo "#################################################################"
-  echo "#######    Generando: anchor peer update for Org1MSP   ##########"
+  echo "#######    Generando: anchor peer update for ReguladoresMSP   ##########"
   echo "#################################################################"
   set -x
-  configtxgen -profile ThreeOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org1MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org1MSP
+  configtxgen -profile ThreeOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/ReguladoresMSPanchors.tx -channelID $CHANNEL_NAME -asOrg ReguladoresMSP
   res=$?
   set +x
   if [ $res -ne 0 ]; then
-    echo "Error: Failed to generate anchor peer update for Org1MSP..."
+    echo "Error: Failed to generate anchor peer update for ReguladoresMSP..."
     exit 1
   fi
 
   echo
   echo "#################################################################"
-  echo "#######    Generando: anchor peer update for Org2MSP   ##########"
+  echo "#######    Generando: anchor peer update for SoporteHCMSP   ##########"
   echo "#################################################################"
   set -x
   configtxgen -profile ThreeOrgsChannel -outputAnchorPeersUpdate \
-    ./channel-artifacts/Org2MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org2MSP
+    ./channel-artifacts/SoporteHCMSPanchors.tx -channelID $CHANNEL_NAME -asOrg SoporteHCMSP
   res=$?
   set +x
   if [ $res -ne 0 ]; then
-    echo "Error: Failed to generate anchor peer update for Org2MSP..."
+    echo "Error: Failed to generate anchor peer update for SoporteHCMSP..."
     exit 1
   fi
 
   echo
   echo "#################################################################"
-  echo "#######    Generando: anchor peer update for Org3MSP   ##########"
+  echo "#######    Generando: anchor peer update for UsuarioHCMSP   ##########"
   echo "#################################################################"
   set -x
   configtxgen -profile ThreeOrgsChannel -outputAnchorPeersUpdate \
-    ./channel-artifacts/Org3MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org3MSP
+    ./channel-artifacts/UsuarioHCMSPanchors.tx -channelID $CHANNEL_NAME -asOrg UsuarioHCMSP
   res=$?
   set +x
   if [ $res -ne 0 ]; then
-    echo "Error: Failed to generate anchor peer update for Org3MSP..."
+    echo "Error: Failed to generate anchor peer update for UsuarioHCMSP..."
     exit 1
   fi
   echo
@@ -270,7 +269,7 @@ else
   exit 1
 fi
 
-while getopts "h?c:t:d:i" opt; do
+while getopts "h?c:t:d" opt; do
   case "$opt" in
   h | \?)
     printHelp
@@ -284,9 +283,6 @@ while getopts "h?c:t:d:i" opt; do
     ;;
   d)
     CLI_DELAY=$OPTARG
-    ;;
-  i)
-    IMAGETAG=$(go env GOARCH)"-"$OPTARG
     ;;
   esac
 done

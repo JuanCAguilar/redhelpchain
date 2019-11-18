@@ -70,44 +70,44 @@ echo "Having all peers join the channel..."
 joinChannel
 
 ## Set the anchor peers for each org in the channel
-echo "Updating anchor peers for org1..."
+echo "Updating anchor peers for reg..."
 updateAnchorPeers 0 1
-echo "Updating anchor peers for org2..."
+echo "Updating anchor peers for sop..."
 updateAnchorPeers 0 2
-echo "Updating anchor peers for org3..."
+echo "Updating anchor peers for usr..."
 updateAnchorPeers 0 3
 
 
-# ## Install chaincode on peer0.org1 and peer0.org2
-# echo "Installing chaincode on peer0.org1..."
+# ## Install chaincode on peer0.reg and peer0.sop
+# echo "Installing chaincode on peer0.reg..."
 # installChaincode 0 1
-# echo "Install chaincode on peer0.org2..."
+# echo "Install chaincode on peer0.sop..."
 # installChaincode 0 2
 #
-# # Instantiate chaincode on peer0.org2
-# echo "Instantiating chaincode on peer0.org2..."
+# # Instantiate chaincode on peer0.sop
+# echo "Instantiating chaincode on peer0.sop..."
 # instantiateChaincode 0 2
 #
-# # Query chaincode on peer0.org1
-# echo "Querying chaincode on peer0.org1..."
+# # Query chaincode on peer0.reg
+# echo "Querying chaincode on peer0.reg..."
 # chaincodeQuery 0 1 100
 #
-# # Invoke chaincode on peer0.org1 and peer0.org2
-# echo "Sending invoke transaction on peer0.org1 peer0.org2..."
+# # Invoke chaincode on peer0.reg and peer0.sop
+# echo "Sending invoke transaction on peer0.reg peer0.sop..."
 # chaincodeInvoke 0 1 0 2
 #
-# ## Install chaincode on peer1.org2
-# echo "Installing chaincode on peer1.org2..."
+# ## Install chaincode on peer1.sop
+# echo "Installing chaincode on peer1.sop..."
 # installChaincode 1 2
 #
-# # Query on chaincode on peer1.org2, check if the result is 90
-# echo "Querying chaincode on peer1.org2..."
+# # Query on chaincode on peer1.sop, check if the result is 90
+# echo "Querying chaincode on peer1.sop..."
 # chaincodeQuery 1 2 90
 
 
 
 echo
-echo "========= All GOOD, Helpchain setup completed =========== "
+echo "================ Helpchain configurado correctamente ================== "
 echo
 
 echo

@@ -27,8 +27,8 @@ PeerOrgs:
   # ---------------------------------------------------------------------------
   # Org1
   # ---------------------------------------------------------------------------
-  - Name: Org1
-    Domain: org1.example.com
+  - Name: Reguladores
+    Domain: reg.com
     EnableNodeOUs: true
     # ---------------------------------------------------------------------------
     # "Specs"
@@ -47,7 +47,7 @@ PeerOrgs:
     #                 Org.Domain, respectively.
     # ---------------------------------------------------------------------------
     # Specs:
-    #   - Hostname: foo # implicitly "foo.org1.example.com"
+    #   - Hostname: foo # implicitly "foo.reg.com"
     #     CommonName: foo27.org5.example.com # overrides Hostname-based FQDN set above
     #   - Hostname: bar
     #   - Hostname: baz
@@ -74,21 +74,17 @@ PeerOrgs:
     # ---------------------------------------------------------------------------
     Users:
       Count: 1
-  # ---------------------------------------------------------------------------
-  # Org2: See "Org1" for full specification
-  # ---------------------------------------------------------------------------
-  - Name: Org2
-    Domain: org2.example.com
+
+  - Name: SoporteHC
+    Domain: sop.com
     EnableNodeOUs: true
     Template:
       Count: 2
     Users:
       Count: 1
-  # ---------------------------------------------------------------------------
-    # Org3
-    # ---------------------------------------------------------------------------
-  - Name: Org3
-    Domain: org3.example.com
+
+  - Name: UsuarioHC
+    Domain: usr.com
     EnableNodeOUs: true
     Template:
       Count: 2

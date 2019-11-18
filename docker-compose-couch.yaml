@@ -23,7 +23,7 @@ services:
     networks:
       - helpchain
 
-  peer0.org1.example.com:
+  peer0.reg.com:
     environment:
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0:5984
@@ -46,7 +46,7 @@ services:
     networks:
       - helpchain
 
-  peer1.org1.example.com:
+  peer1.reg.com:
     environment:
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1:5984
@@ -66,7 +66,7 @@ services:
     networks:
       - helpchain
 
-  peer0.org2.example.com:
+  peer0.sop.com:
     environment:
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb2:5984
@@ -86,7 +86,7 @@ services:
     networks:
       - helpchain
 
-  peer1.org2.example.com:
+  peer1.sop.com:
     environment:
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb3:5984
@@ -106,7 +106,7 @@ services:
     networks:
       - helpchain
 
-  peer0.org3.example.com:
+  peer0.usr.com:
     environment:
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb4:5984
@@ -126,7 +126,7 @@ services:
     networks:
       - helpchain
 
-  peer1.org3.example.com:
+  peer1.usr.com:
     environment:
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb5:5984
