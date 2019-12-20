@@ -35,18 +35,18 @@ createChannel() {
 
 	if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
                 set -x
-		peer channel create -o orderer.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx >&log.txt
+		peer channel create -o orderer.ord.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx >&log.txt
 		res=$?
                 set +x
 	else
 				set -x
-		peer channel create -o orderer.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
+		peer channel create -o orderer.ord.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
 		res=$?
 				set +x
 	fi
 	cat log.txt
-	verifyResult $res "Channel creation failed"
-	echo "===================== Channel '$CHANNEL_NAME' created ===================== "
+	verifyResult $res "La creacion del canal ha fallado"
+	echo "===================== El canal '$CHANNEL_NAME' ha sido creado exitosamente ===================== "
 	echo
 }
 
@@ -54,7 +54,7 @@ joinChannel () {
 	for org in 1 2 3; do
 	    for peer in 0 1; do
 		joinChannelWithRetry $peer $org
-		echo "===================== peer${peer}.org${org} joined channel '$CHANNEL_NAME' ===================== "
+		echo "===================== peer${peer}.org${org} se ha unido al canal '$CHANNEL_NAME' ===================== "
 		sleep $DELAY
 		echo
 	    done
@@ -62,32 +62,36 @@ joinChannel () {
 }
 
 ## Create channel
-echo "Creating channel..."
+echo "Creando el canal $CHANNEL_NAME..."
 createChannel
 
 ## Join all the peers to the channel
-echo "Having all peers join the channel..."
+echo "Uniendo todos los peers al canal..."
 joinChannel
 
 ## Set the anchor peers for each org in the channel
-echo "Updating anchor peers for reg..."
+echo "Actualizando anchor peers para la organizacion de Reguladores..."
 updateAnchorPeers 0 1
-echo "Updating anchor peers for sop..."
+echo "Actualizando anchor peers para la organizacion de Soporte Tecnico..."
 updateAnchorPeers 0 2
-echo "Updating anchor peers for usr..."
+echo "Actualizando anchor peers para la organizacion de Usuarios..."
 updateAnchorPeers 0 3
 
 
 # ## Install chaincode on peer0.reg and peer0.sop
-# echo "Installing chaincode on peer0.reg..."
-# installChaincode 0 1
-# echo "Install chaincode on peer0.sop..."
-# installChaincode 0 2
-#
+ echo "Instalando chaincode en peer0.reg..."
+ installChaincode 0 1
+ echo "Instalando chaincode en peer0.sop..."
+ installChaincode 0 2
+ echo "Instalando chaincode en peer0.usr..."
+ installChaincode 0 3
+
+
 # # Instantiate chaincode on peer0.sop
-# echo "Instantiating chaincode on peer0.sop..."
-# instantiateChaincode 0 2
-#
+ echo "Instanciando chaincode en peer0.reg..."
+ instantiateChaincode 0 1
+
+
 # # Query chaincode on peer0.reg
 # echo "Querying chaincode on peer0.reg..."
 # chaincodeQuery 0 1 100
