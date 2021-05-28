@@ -249,7 +249,7 @@ COMPOSE_FILE=docker-compose-redhelpchain.yaml
 COMPOSE_FILE_COUCH=docker-compose-couch.yaml
 
 LANGUAGE=node
-IMAGETAG="latest"
+IMAGETAG="1.4"
 CONSENSUS_TYPE="solo"
 
 # Parse commandline args
